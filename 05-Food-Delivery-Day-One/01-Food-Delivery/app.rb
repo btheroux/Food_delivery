@@ -7,9 +7,10 @@ require_relative '../01-Food-Delivery/app/repositories/customer_repository'
 require_relative '../01-Food-Delivery/app/controllers/customers_controller'
 require_relative 'router'
 
-csv_file   = File.join(__dir__, 'meals.csv')
+meals_csv   = File.join(__dir__, 'meals.csv')
 meal_repository   = MealRepository.new(csv_file)
 meals_controller = MealsController.new(meal_repository)
+customers_csv   = File.join(__dir__, 'customers.csv')
 customer_repository   = CustomerRepository.new(csv_file)
 customers_controller = CustomersController.new(customer_repository)
 
