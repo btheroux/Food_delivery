@@ -1,26 +1,24 @@
-require 'csv'
-
-class MealRepository
+class CustomerRepository
   def initialize(csv_path)
     @csv_path = csv_path
     @csv_options = { col_sep: ',', force_quotes: true, header_converters: :symbol, headers: :first_row, quote_char: '"'}
-    @meals = []
+    @customers = []
     load_csv if File.exist?(csv_path)
   end
 
   def all
-    return @meals
+    return @customers
   end
 
   def find(id)
-    @meals.find { |meal| meal.id == id }
+    @customers.find { |customer| customer.id == id }
   end
 
-  def add(meal)
-    @next_id = @meals.empty? ? 1 : @meals.last.id + 1
-    meal.id = @next_id
+  def add(customer)
+    @next_id = @customers.empty? ? 1 : @customers.last.id + 1
+    customer.id = @next_id
     @next_id += 1
-    @meals << meal
+    @customers << customer
     save_csv
   end
 
@@ -29,17 +27,17 @@ class MealRepository
   def load_csv
     CSV.foreach(@csv_path, @csv_options) do |row|
       row[:id] = row[:id].to_i
-      row[:price] = row[:price].to_i
-      @meals << Meal.new(row)
+      @customers << Customer.new(row)
     end
   end
 
   def save_csv
     CSV.open(@csv_path, 'wb', @csv_options) do |csv|
-      csv << ['id', 'name', 'price']
-      @meals.each do |meal|
-        csv << [meal.id, meal.name, meal.price]
+      csv << ['id', 'name', 'address']
+      @customers.each do |customer|
+        csv << [customer.id, customer.name, customer.address]
       end
     end
   end
 end
+

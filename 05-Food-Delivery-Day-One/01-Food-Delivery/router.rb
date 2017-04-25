@@ -1,7 +1,8 @@
 # TODO: implement the router of your app.
 class Router
-  def initialize(controller)
-    @controller = controller
+  def initialize(meals_controller, customers_controller)
+    @meals_controller = meals_controller
+    @customers_controller = customers_controller
     @running    = true
   end
 
@@ -21,15 +22,15 @@ class Router
 
   def route_action(action)
     case action
-    when 1 then @controller.list
-    when 2 then @controller.add
-    # when 3 then @controller.destroy
-    # when 4 then @controller.search
+    when 1 then @meals_controller.list
+    when 2 then @meals_controller.add
+    when 3 then @customers_controller.list
+    when 4 then @customers_controller.add
     # when 5 then @controller.filter_by_time
     # when 6 then @controller.mark_as_done
-    when 3 then stop
+    when 5 then stop
     else
-      puts "Please press 1, 2 or 3"
+      puts "Please press 1, 2, 3, 4 or 5"
     end
   end
 
@@ -41,11 +42,11 @@ class Router
     puts ""
     puts "What do you want to do next?"
     puts "1 - List all meals"
-    puts "2 - Create a new meals"
-    # puts "3 - Destroy a recipe"
-    # puts "4 - Import recipe from LetsCookFrench"
+    puts "2 - Add a new meals"
+    puts "3 - List all customers"
+    puts "4 - Add a new customer"
     # puts "5 - Filter recipes by time"
     # puts "6 - Mark recipe as done"
-    puts "3 - Stop and exit the program"
+    puts "5 - Stop and exit the program"
   end
 end

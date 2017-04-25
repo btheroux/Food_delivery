@@ -1,5 +1,5 @@
 require_relative '../views/view'
-require_relative '../models/meals_model'
+require_relative '../models/meal'
 
 
 class MealsController
@@ -15,7 +15,7 @@ class MealsController
   def add
     display_meals
     name = @view.ask_for("is the name")
-    price = @view.ask_for("is the price")
+    price = @view.ask_for("is the price").to_i
     attributes = {name: name, price: price}
     meal = Meal.new(attributes)
     @meals.add(meal)
@@ -23,6 +23,6 @@ class MealsController
 
   private
   def display_meals
-    @view.display(@meals.all)
+    @view.display_meals(@meals.all)
   end
 end
