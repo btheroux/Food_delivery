@@ -1,13 +1,19 @@
 class View
   def display_meals(meals)
-    meals.each_with_index do |meal, index|
-      puts "#{index + 1} - #{meal.name} | #{meal.price}"
+    meals.each do |meal|
+      puts "#{meal.id} - #{meal.name} | #{meal.price}"
     end
   end
 
   def display_customers(customers)
-    customers.each_with_index do |customer, index|
-      puts "#{index + 1} - #{customer.name} | #{customer.address}"
+    customers.each do |customer|
+      puts "#{customer.id} - #{customer.name} | #{customer.address}"
+    end
+  end
+
+  def display_orders(orders)
+    orders.each do |order|
+      puts "#{order.customer.name} #{order.meal.name}"
     end
   end
 
