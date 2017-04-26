@@ -3,28 +3,32 @@ require_relative '../models/employee'
 
 
 class SessionsController
-  def initialize(employees)
-    @employee = customers
+  def initialize(employee_repository)
+    @employees = employee_repository
     @view = View.new
+    @user = nil
   end
 
-  def list
-    display_customers
+  def sign_in
+    until @user && user_password == @user.password
+      user_username = @view.ask_for_username
+      user_password = @view.ask_for_password
+      @user = @employees.find_by_username(user_username)
+      if @user && user_password == @user.password
+        puts "welcome #{@user.username}"
+        return @user
+      elsif @user
+        puts "wrong password try again"
+        @user = nil
+      else
+        puts "wrong try again"
+        @user = nil
+      end
+    end
   end
 
-  def add
-    display_customers
-    name = @view.ask_for("is the name")
-    address = @view.ask_for("is the address")
-    attributes = {name: name, address: address}
-    customer = Customer.new(attributes)
-    @customers.add(customer)
+  def sign_out
+    return @user = nil
   end
-
-  private
-  def display_customers
-    @view.display_customers(@customers.all)
-  end
-
 
 end

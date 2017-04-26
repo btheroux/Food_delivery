@@ -1,9 +1,11 @@
-require_relative 'employee_repository'
+# require_relative 'employee_repository'
+
 class Router
-  def initialize(meals_controller, customers_controller)
+  def initialize(meals_controller, customers_controller, sessions_controller)
     @meals_controller = meals_controller
     @customers_controller = customers_controller
-    @running    = true
+    @sessions_controller = sessions_controller
+    @running = true
   end
 
   def run
@@ -11,8 +13,9 @@ class Router
     puts "           --           "
 
     while @running
-      sign_in
-      if user.role == "manager"
+      #@customers_controller.sign_in
+      user = @sessions_controller.sign_in
+      if user.manager?
         display_tasks_manager
         man_action = gets.chomp.to_i
         print `clear`
@@ -28,20 +31,10 @@ class Router
 
   private
 
-  def sign_in
-    until user_username == user.username && user_password == user.password  do
-      puts “username?”
-      user_username = gets.chomp
-      user = employees.find_by_username(user_username)
-      puts “password?”
-      user_password = gets.chomp
-    end
-  end
-
   def route_action(action)
     case action
     when 1 then @meals_controller.list
-    when 2 then @customers_controller.list
+    when 2 then @sessions_controller.sign_out
     # when 5 then @controller.filter_by_time
     # when 6 then @controller.mark_as_done
     when 3 then stop
@@ -56,11 +49,11 @@ class Router
     when 2 then @meals_controller.add
     when 3 then @customers_controller.list
     when 4 then @customers_controller.add
-    # when 5 then @controller.filter_by_time
+    when 8 then @sessions_controller.sign_out
     # when 6 then @controller.mark_as_done
-    when 5 then stop
+    when 9 then stop
     else
-      puts "Please press 1, 2, 3, 4 or 5"
+      puts "Please press 1, 2, 3, 4, 8 or 9"
     end
   end
 
@@ -75,16 +68,16 @@ class Router
     puts "2 - Add a new meals"
     puts "3 - List all customers"
     puts "4 - Add a new customer"
-    # puts "5 - Filter recipes by time"
+    puts "8 - Signout"
     # puts "6 - Mark recipe as done"
-    puts "5 - Stop and exit the program"
+    puts "9 - Stop and exit the program"
   end
 
   def display_tasks_delivery_guy
     puts ""
     puts "What do you want to do next?"
     puts "1 - List all meals"
-    puts "2 - List all customers"
+    puts "2 - Signout"
     # puts "5 - Filter recipes by time"
     # puts "6 - Mark recipe as done"
     puts "3 - Stop and exit the program"

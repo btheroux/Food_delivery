@@ -16,4 +16,14 @@ class View
     user_input = gets.chomp
     return user_input
   end
+
+  def ask_for_username
+    puts "what is your username?"
+    return user_username = gets.chomp
+  end
+
+  def ask_for_password
+    puts "what is your password?"
+    return user_password = gets.chomp
+  end
 end
